@@ -1,0 +1,8 @@
+Had to implement a website akin to Wiki where users can see and edit data
+
+Challenges:
+1. Getting used to Django's format. Started this project with no idea what to do and slowly by slowly by rewatching the lecture 3 times, 
+reading documentation, and googling did I finally manage to parse what to do
+
+2. Struggled most with implementing the 'create page' function. Mostly due to unfamiliarity with how all the sections work in django. Finishing that section
+brought out GREAT emotion
