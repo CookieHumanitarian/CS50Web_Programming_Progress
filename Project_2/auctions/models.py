@@ -10,6 +10,9 @@ class Listing(models.Model):
     description = models.TextField()
     startBid = models.IntegerField()
     image = models.ImageField()
+    
+    def __str__(self):
+        return f"{self.title}: {self.startBid}"
 class Bids(models.Model):
     pass
 
