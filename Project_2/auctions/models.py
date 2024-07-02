@@ -12,7 +12,7 @@ class Listing(models.Model):
     image = models.ImageField()
     
     def __str__(self):
-        return f"{self.title}: {self.startBid}"
+        return f"{self.title}, Start Bid: {self.startBid}"
 class Bids(models.Model):
     pass
 
