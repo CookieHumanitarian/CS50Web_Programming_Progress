@@ -7,7 +7,8 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     def __str__(self):
-        return {self.email}
+        return f"{self.email}"
+    
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
