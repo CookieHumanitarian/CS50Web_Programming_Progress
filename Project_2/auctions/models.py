@@ -3,8 +3,11 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    username = models.CharField(max_length=30, unique=True)
+    email = models.EmailField(unique=True)
 
+    def __str__(self):
+        return {self.email}
 class Listing(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
