@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -6,6 +7,11 @@ from django.urls import reverse
 
 from .models import User, Listing
 
+class createListing(forms.Form):
+    title = forms.CharField(max_length=64)
+    description = forms.CharField()
+    start_Bid = forms.IntegerField()
+    image = forms.CharField()
 
 def index(request):
     return render(request, "auctions/index.html")
@@ -63,7 +69,6 @@ def register(request):
         return render(request, "auctions/register.html")
     
 def create(request):
-    listing = Listing.objects.all()
     return render(request, "auctions/create.html", {
-        "listing": listing
+        "form": createListing
     })
