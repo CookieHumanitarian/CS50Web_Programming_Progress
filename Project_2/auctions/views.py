@@ -11,7 +11,7 @@ class createListing(forms.Form):
     title = forms.CharField(max_length=64)
     description = forms.CharField()
     start_Bid = forms.IntegerField()
-    image = forms.CharField()
+    image = forms.CharField(required=False)
 
 def index(request):
     return render(request, "auctions/index.html")
@@ -69,6 +69,27 @@ def register(request):
         return render(request, "auctions/register.html")
     
 def create(request):
+    form = createListing()
     return render(request, "auctions/create.html", {
-        "form": createListing
+        "form": form
+    })
+
+def saveListing(request):
+    if request.method == "POST":
+        form = createListing(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            startBid = form.cleaned_data['start_Bid']
+            image = form.cleaned_data['image']
+            user = request.user
+            instance = Listing(auctioneer = user, title=title, description=description, startBid=startBid, image=image)
+            instance.save()
+            return HttpResponseRedirect(reverse("index"))
+    
+    else:
+        form = createListing()
+
+    return render(request, "auctions/create.html", {
+        "form": form
     })
