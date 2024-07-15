@@ -10,7 +10,7 @@ class User(AbstractUser):
         return f"{self.email}"
     
 class Listing(models.Model):
-    auctioneer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user")
+    auctioneer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owner")
     title = models.CharField(max_length=64)
     description = models.TextField()
     startBid = models.IntegerField()

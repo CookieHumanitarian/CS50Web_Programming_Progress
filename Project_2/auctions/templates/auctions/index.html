@@ -4,8 +4,13 @@
     <h2>Current Listings</h2>
 
     <ul>
-        {% for form in forms %}
-            <li>{{ form }}</li>
+        {% for listing in listings %}
+        <p>
+            <ul>{{ listing.title }}</ul>
+            <ul>{{ listing.description }}</ul>
+            <ul>{{ listing.startBid }}</ul>
+            <img src="{{listing.image}}">
+        </p>
         {% empty %}
             <li>No Listings.</li>
         {% endfor %}
