@@ -1,0 +1,11 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <p>
+        <p>{{ data.title }}</p>
+        <p>{{ data.description }}</p>
+        <p>{{ data.startBid }}</p>
+        <img src="{{data.image}}">
+    </p>
+
+{% endblock %}

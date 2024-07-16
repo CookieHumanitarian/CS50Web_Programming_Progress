@@ -10,6 +10,7 @@
             <ul>{{ listing.description }}</ul>
             <ul>{{ listing.startBid }}</ul>
             <img src="{{listing.image}}">
+            <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
         </p>
         {% empty %}
             <li>No Listings.</li>

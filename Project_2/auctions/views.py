@@ -96,3 +96,9 @@ def saveListing(request):
     return render(request, "auctions/create.html", {
         "form": form
     })
+    
+def item(request, title):
+    data = Listing.objects.get(title=title)
+    return render(request, "auctions/item.html", {
+        "data": data
+    })
