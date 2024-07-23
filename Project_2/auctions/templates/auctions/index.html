@@ -1,6 +1,14 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if forloop.last %}
+                <em>{{ message }}</em>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
     <h2>Current Listings</h2>
 
     <ul>

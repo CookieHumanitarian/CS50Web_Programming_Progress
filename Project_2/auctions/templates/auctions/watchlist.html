@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<ul>
+    {% for listing in listings %}
+        {% if listing.watchlist %}
+            <p>
+                <ul>{{ listing.title }}</ul>
+                <ul>{{ listing.description }}</ul>
+                <ul>{{ listing.startBid }}</ul>
+                <img src="{{listing.image}}">
+                <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
+            </p>
+        {% endif %}
+    {% empty %}
+        <li>No item in Watchlist</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

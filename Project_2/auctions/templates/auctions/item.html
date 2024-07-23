@@ -8,4 +8,12 @@
         <img src="{{data.image}}">
     </p>
 
+{% if user.is_authenticated %}
+    {% if data.watchlist %}
+        <a href="{% url 'add_watchlist' data.title %}">Remove from Watchlist</a>
+    {% else %}
+        <a href="{% url 'add_watchlist' data.title %}">Add to Watchlist</a>
+    {% endif %}
+{% endif %}
+
 {% endblock %}

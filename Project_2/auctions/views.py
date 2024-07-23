@@ -1,10 +1,10 @@
 from django import forms
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
 from .models import User, Listing
 
 class createListing(forms.Form):
@@ -101,4 +101,29 @@ def item(request, title):
     data = Listing.objects.get(title=title)
     return render(request, "auctions/item.html", {
         "data": data
+    })
+    
+def item(request, title):
+    data = Listing.objects.get(title=title)
+    return render(request, "auctions/item.html", {
+        "data": data
+    })
+    
+def add_watchlist(request, title):
+    data = Listing.objects.get(title=title)
+    if data.watchlist == False:
+        data.watchlist = True
+        messages.info(request, 'Added to Watchlist')
+    else:
+        data.watchlist = False
+        messages.info(request, 'Removed from Watchlist')
+
+    data.save()
+    
+    return HttpResponseRedirect(reverse("index"))
+
+def watchlist(request):
+    all_listings = Listing.objects.all()
+    return render(request, "auctions/watchlist.html", {
+        "listings": all_listings,
     })

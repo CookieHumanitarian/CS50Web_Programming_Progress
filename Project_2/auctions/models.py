@@ -15,6 +15,7 @@ class Listing(models.Model):
     description = models.TextField()
     startBid = models.IntegerField()
     image = models.ImageField(blank=True)
+    watchlist = models.BooleanField(default=False)
     
     def __str__(self):
         return f"{self.title}, Start Bid: {self.startBid}, auctioneer: {self.auctioneer}"
