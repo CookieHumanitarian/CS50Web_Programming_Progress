@@ -15,6 +15,9 @@ class createListing(forms.Form):
     
 class bidForm(forms.Form):
     new_bid = forms.IntegerField()
+    
+class commentForm(forms.Form):
+    comment = forms.CharField()
 
 def index(request):
     all_listings = Listing.objects.all()
