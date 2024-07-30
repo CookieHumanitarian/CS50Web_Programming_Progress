@@ -108,17 +108,16 @@ def saveListing(request):
 def item(request, title):
     data = Listing.objects.get(title=title)
     form = bidForm()
+    try:
+        oldForm = Bids.objects.get(listing=data)
+    except Bids.DoesNotExist:
+        oldForm = None
     
     if request.method == "POST":
         newBid = bidForm(request.POST)
         if newBid.is_valid():
             newBidAmount = newBid.cleaned_data['new_bid']
             user = request.user
-            
-            try:
-                oldForm = Bids.objects.get(listing=data)
-            except Bids.DoesNotExist:
-                oldForm = None
 
             if oldForm:
                 if newBidAmount == oldForm.amount:
@@ -126,12 +125,13 @@ def item(request, title):
                 else:
                     oldForm.amount = newBidAmount
                     oldForm.bidder = user
-                    oldForm.save()
+                    oldForm.save()                    
+                    messages.info(request, 'New bidded added')
+
             else:
                 Bids.objects.create(listing=data, bidder=user, amount=newBidAmount)
 
     
-    oldForm = Bids.objects.get(listing=data)    
     return render(request, "auctions/item.html", {
         "data": data,
         "form": form,

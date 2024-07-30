@@ -1,6 +1,15 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
+{% if messages %}
+        {% for message in messages %}
+            {% if forloop.last %}
+                <em>{{ message }}</em>
+            {% endif %}
+        {% endfor %}
+{% endif %}
+
     <p>
         <p>Title: {{ data.title }}</p>
         <p>Description: {{ data.description }}</p>
@@ -11,6 +20,7 @@
             <p>Bidder: No bidder</p>
         {% endif %}
 
+{% if user.is_authenticated %}
         <form action="{% url 'item' data.title %}" method="post">
             {% csrf_token %}
             {{ form }}
@@ -19,7 +29,6 @@
         <img src="{{data.image}}">
     </p>
 
-{% if user.is_authenticated %}
     {% if data.watchlist %}
         <a href="{% url 'add_watchlist' data.title %}">Remove from Watchlist</a>
     {% else %}
