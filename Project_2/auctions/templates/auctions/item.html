@@ -29,6 +29,10 @@
         <img src="{{data.image}}">
     </p>
 
+    {% if auctioneer == data.auctioneer %}
+        <p><a href="{% url 'close' data.title %}">Close Auction</a></p>
+    {% endif %}
+
     {% if data.watchlist %}
         <a href="{% url 'add_watchlist' data.title %}">Remove from Watchlist</a>
     {% else %}

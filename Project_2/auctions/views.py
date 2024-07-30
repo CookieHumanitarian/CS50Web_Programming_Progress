@@ -108,6 +108,7 @@ def saveListing(request):
 def item(request, title):
     data = Listing.objects.get(title=title)
     form = bidForm()
+    user = request.user
     try:
         oldForm = Bids.objects.get(listing=data)
     except Bids.DoesNotExist:
@@ -117,7 +118,6 @@ def item(request, title):
         newBid = bidForm(request.POST)
         if newBid.is_valid():
             newBidAmount = newBid.cleaned_data['new_bid']
-            user = request.user
 
             if oldForm:
                 if newBidAmount == oldForm.amount:
@@ -135,7 +135,8 @@ def item(request, title):
     return render(request, "auctions/item.html", {
         "data": data,
         "form": form,
-        "bid": oldForm
+        "bid": oldForm,
+        "auctioneer": user
     })
     
 def add_watchlist(request, title):
@@ -156,4 +157,8 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "listings": all_listings,
     })
+    
+    
+def close(request, title):
+    return HttpResponseRedirect(reverse("index"))
         
