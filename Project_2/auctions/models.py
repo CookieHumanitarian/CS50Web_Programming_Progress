@@ -20,7 +20,10 @@ class Listing(models.Model):
     def __str__(self):
         return f"{self.title}, Start Bid: {self.startBid}, auctioneer: {self.auctioneer}"
 class Bids(models.Model):
-    pass
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
+    bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
+    amount = models.IntegerField()
+        
 
 class Comments(models.Model):
     pass

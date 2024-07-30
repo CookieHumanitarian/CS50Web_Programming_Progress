@@ -2,9 +2,20 @@
 
 {% block body %}
     <p>
-        <p>{{ data.title }}</p>
-        <p>{{ data.description }}</p>
-        <p>{{ data.startBid }}</p>
+        <p>Title: {{ data.title }}</p>
+        <p>Description: {{ data.description }}</p>
+        <p>Current bid: {{ bid.amount }}</p>
+        {% if bid.bidder%}
+            <p>Bidder: {{ bid.bidder }}</p>
+        {% else %}
+            <p>Bidder: No bidder</p>
+        {% endif %}
+
+        <form action="{% url 'item' data.title %}" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Submit</button>
+        </form>
         <img src="{{data.image}}">
     </p>
 

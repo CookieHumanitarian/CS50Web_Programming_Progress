@@ -14,11 +14,11 @@
     <ul>
         {% for listing in listings %}
         <p>
-            <ul>{{ listing.title }}</ul>
-            <ul>{{ listing.description }}</ul>
-            <ul>{{ listing.startBid }}</ul>
-            <img src="{{listing.image}}">
+            <ul> Listing by: {{ listing.auctioneer }}</ul>
+            <ul>Title: {{ listing.title }}</ul>
+            <ul>Description: {{ listing.description }}</ul>
             <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
+            <img src="{{listing.image}}">
         </p>
         {% empty %}
             <li>No Listings.</li>

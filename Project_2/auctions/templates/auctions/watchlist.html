@@ -5,6 +5,7 @@
     {% for listing in listings %}
         {% if listing.watchlist %}
             <p>
+                <ul> Listing by: {{ listing.auctioneer }}</ul>
                 <ul>{{ listing.title }}</ul>
                 <ul>{{ listing.description }}</ul>
                 <ul>{{ listing.startBid }}</ul>

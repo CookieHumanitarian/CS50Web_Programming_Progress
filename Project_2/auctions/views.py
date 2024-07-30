@@ -5,13 +5,16 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Listing
+from .models import User, Listing, Bids
 
 class createListing(forms.Form):
     title = forms.CharField(max_length=64)
     description = forms.CharField()
     start_Bid = forms.IntegerField()
     image = forms.CharField(required=False)
+    
+class bidForm(forms.Form):
+    new_bid = forms.IntegerField()
 
 def index(request):
     all_listings = Listing.objects.all()
@@ -88,6 +91,9 @@ def saveListing(request):
             user = request.user
             instance = Listing(auctioneer = user, title=title, description=description, startBid=startBid, image=image)
             instance.save()
+            
+            bid = Bids(listing=instance, bidder=user, amount=startBid)
+            bid.save()
             return HttpResponseRedirect(reverse("index"))
     
     else:
@@ -97,16 +103,39 @@ def saveListing(request):
         "form": form
     })
     
-def item(request, title):
-    data = Listing.objects.get(title=title)
-    return render(request, "auctions/item.html", {
-        "data": data
-    })
+    
     
 def item(request, title):
     data = Listing.objects.get(title=title)
+    form = bidForm()
+    
+    if request.method == "POST":
+        newBid = bidForm(request.POST)
+        if newBid.is_valid():
+            newBidAmount = newBid.cleaned_data['new_bid']
+            user = request.user
+            
+            try:
+                oldForm = Bids.objects.get(listing=data)
+            except Bids.DoesNotExist:
+                oldForm = None
+
+            if oldForm:
+                if newBidAmount == oldForm.amount:
+                    messages.info(request, 'Invalid amount')
+                else:
+                    oldForm.amount = newBidAmount
+                    oldForm.bidder = user
+                    oldForm.save()
+            else:
+                Bids.objects.create(listing=data, bidder=user, amount=newBidAmount)
+
+    
+    oldForm = Bids.objects.get(listing=data)    
     return render(request, "auctions/item.html", {
-        "data": data
+        "data": data,
+        "form": form,
+        "bid": oldForm
     })
     
 def add_watchlist(request, title):
@@ -127,3 +156,4 @@ def watchlist(request):
     return render(request, "auctions/watchlist.html", {
         "listings": all_listings,
     })
+        
