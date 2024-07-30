@@ -160,5 +160,12 @@ def watchlist(request):
     
     
 def close(request, title):
-    return HttpResponseRedirect(reverse("index"))
+    data = Listing.objects.get(title=title)
+    if data.open == True:
+        data.open = False
+        messages.info(request, 'Closed Auction')
+
+    data.save()
+    
+    return HttpResponseRedirect(reverse("item", title))
         

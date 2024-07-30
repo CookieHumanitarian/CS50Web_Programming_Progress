@@ -19,18 +19,28 @@
         {% else %}
             <p>Bidder: No bidder</p>
         {% endif %}
+        <img src="{{data.image}}">
 
 {% if user.is_authenticated %}
+
+    {% if data.open == True %}
         <form action="{% url 'item' data.title %}" method="post">
             {% csrf_token %}
             {{ form }}
             <button type="submit">Submit</button>
         </form>
-        <img src="{{data.image}}">
     </p>
 
-    {% if auctioneer == data.auctioneer %}
-        <p><a href="{% url 'close' data.title %}">Close Auction</a></p>
+        {% if auctioneer == data.auctioneer %}
+            <p><a href="{% url 'close' data.title %}">Close Auction</a></p>
+        {% endif %}
+    
+    {% else %}
+        {% if auctioneer == bid.bidder %}
+            <p>You won the auction at {{bid.amount}}</p>
+        {% else %}
+            <p>Auction won by: {{bid.bidder}} at {{bid.amount}}</p>
+        {% endif %}
     {% endif %}
 
     {% if data.watchlist %}

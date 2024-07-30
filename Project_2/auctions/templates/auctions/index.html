@@ -13,13 +13,15 @@
 
     <ul>
         {% for listing in listings %}
-        <p>
-            <ul> Listing by: {{ listing.auctioneer }}</ul>
-            <ul>Title: {{ listing.title }}</ul>
-            <ul>Description: {{ listing.description }}</ul>
-            <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
-            <img src="{{listing.image}}">
-        </p>
+           
+            <p>
+                <ul> Listing by: {{ listing.auctioneer }}</ul>
+                <ul>Title: {{ listing.title }}</ul>
+                <ul>Description: {{ listing.description }}</ul>
+                <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
+                <img src="{{listing.image}}">
+            </p>
+  
         {% empty %}
             <li>No Listings.</li>
         {% endfor %}
