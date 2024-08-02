@@ -27,6 +27,7 @@ class Bids(models.Model):
         
 
 class Comments(models.Model):
-    title = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
+

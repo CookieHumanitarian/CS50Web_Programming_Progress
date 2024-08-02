@@ -141,8 +141,7 @@ def item(request, title):
         "data": data,
         "form": form,
         "bid": oldForm,
-        "auctioneer": user,
-        "comment": comment
+        "auctioneer": user
     })
     
 def add_watchlist(request, title):
@@ -183,7 +182,7 @@ def comment(request, title):
         form = commentForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data['comment']
-            instance = Comments(title=title, user=user, comment=comment)
+            instance = Comments(listing=data, user=user, comment=comment)
             instance.save()
             
             return HttpResponseRedirect(reverse("index"))

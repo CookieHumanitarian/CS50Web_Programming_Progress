@@ -59,15 +59,14 @@
 
 {% endif %}
 
-{% if comment.title == data.title %}
-    {% for c in comment %}
-        <p>
-            <div>{{ c.user.username }} commented: </div>
-            <div>{{ c.comment }} </div>
-        </p>
-    {% endfor %}
-{% else %}
-    <p>No comments</p>
-{% endif %}
+{% for c in data.comments.all %}
+  <p>
+      <div>{{ c.user.username }} commented: </div>
+      <div>{{ c.comment }}</div>
+  </p>
+{% empty %}
+  <p>No comments</p>
+{% endfor %}
+
 
 {% endblock %}
