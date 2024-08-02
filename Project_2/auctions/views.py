@@ -110,7 +110,7 @@ def saveListing(request):
     
 def item(request, title):
     data = Listing.objects.get(title=title)
-    commentForm = Comments.objects.all()
+    comment = Comments.objects.all()
     form = bidForm()
     user = request.user
     
@@ -142,7 +142,7 @@ def item(request, title):
         "form": form,
         "bid": oldForm,
         "auctioneer": user,
-        "comment": commentForm
+        "comment": comment
     })
     
 def add_watchlist(request, title):
@@ -183,7 +183,7 @@ def comment(request, title):
         form = commentForm(request.POST)
         if form.is_valid():
             comment = form.cleaned_data['comment']
-            instance = Comments(listing=data, username=user, comment=comment)
+            instance = Comments(title=title, user=user, comment=comment)
             instance.save()
             
             return HttpResponseRedirect(reverse("index"))

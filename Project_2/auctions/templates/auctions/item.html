@@ -57,17 +57,17 @@
         <button type="submit">Comment</button>
     </form>
 
-    {% if commentForm.listing == data.title %}
-        {% for c in commentForm %}
-            <p>
-                <div>{{commentForm.username}} </div>
-                <div>{{commentForm.comment}} </div>
-            </p>
-        {% endfor %}
-    {% else %}
-        <p>No comment</p>
-    {% endif %}
+{% endif %}
 
+{% if comment.title == data.title %}
+    {% for c in comment %}
+        <p>
+            <div>{{ c.user.username }} commented: </div>
+            <div>{{ c.comment }} </div>
+        </p>
+    {% endfor %}
+{% else %}
+    <p>No comments</p>
 {% endif %}
 
 {% endblock %}
