@@ -57,11 +57,12 @@
         <button type="submit">Comment</button>
     </form>
 
-    {% if messages %}
-        {% for message in messages %}
-            {% if forloop.last %}
-                <em>{{ message }}</em>
-            {% endif %}
+    {% if commentForm.listing == data.title %}
+        {% for c in commentForm %}
+            <p>
+                <div>{{commentForm.username}} </div>
+                <div>{{commentForm.comment}} </div>
+            </p>
         {% endfor %}
     {% else %}
         <p>No comment</p>

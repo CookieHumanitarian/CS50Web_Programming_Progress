@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from .models import User, Listing, Bids
+from .models import User, Listing, Bids, Comments
 
 class createListing(forms.Form):
     title = forms.CharField(max_length=64)
@@ -110,8 +110,10 @@ def saveListing(request):
     
 def item(request, title):
     data = Listing.objects.get(title=title)
+    commentForm = Comments.objects.all()
     form = bidForm()
     user = request.user
+    
     try:
         oldForm = Bids.objects.get(listing=data)
     except Bids.DoesNotExist:
@@ -139,7 +141,8 @@ def item(request, title):
         "data": data,
         "form": form,
         "bid": oldForm,
-        "auctioneer": user
+        "auctioneer": user,
+        "comment": commentForm
     })
     
 def add_watchlist(request, title):
@@ -174,10 +177,14 @@ def close(request, title):
 
 def comment(request, title):
     data = Listing.objects.get(title=title)
-    form = commentForm()
     user = request.user
-    try:
-        oldForm = Bids.objects.get(listing=data)
-    except Bids.DoesNotExist:
-        oldForm = None
+    
+    if request.method == "POST":
+        form = commentForm(request.POST)
+        if form.is_valid():
+            comment = form.cleaned_data['comment']
+            instance = Comments(listing=data, username=user, comment=comment)
+            instance.save()
+            
+            return HttpResponseRedirect(reverse("index"))
         
