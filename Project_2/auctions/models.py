@@ -27,4 +27,6 @@ class Bids(models.Model):
         
 
 class Comments(models.Model):
-    pass
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="item")
+    username = models.CharField(max_length=30)
+    comment = models.TextField()

@@ -29,7 +29,7 @@
             {{ form }}
             <button type="submit">Submit</button>
         </form>
-    </p>
+  
 
         {% if auctioneer == data.auctioneer %}
             <p><a href="{% url 'close' data.title %}">Close Auction</a></p>
@@ -48,6 +48,25 @@
     {% else %}
         <a href="{% url 'add_watchlist' data.title %}">Add to Watchlist</a>
     {% endif %}
+        
+
+    <form action="{% url 'comment' data.title %}" method="post">
+        {% csrf_token %}
+        {{ commentForm }}
+        <input class="form-control" autofocus type="text" name="comment" placeholder="Comment">
+        <button type="submit">Comment</button>
+    </form>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if forloop.last %}
+                <em>{{ message }}</em>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>No comment</p>
+    {% endif %}
+
 {% endif %}
 
 {% endblock %}

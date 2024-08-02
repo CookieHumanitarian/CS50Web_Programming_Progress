@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .models import User, Listing, Bids
@@ -171,4 +171,13 @@ def close(request, title):
     data.save()
     
     return HttpResponseRedirect(reverse("item", title))
+
+def comment(request, title):
+    data = Listing.objects.get(title=title)
+    form = commentForm()
+    user = request.user
+    try:
+        oldForm = Bids.objects.get(listing=data)
+    except Bids.DoesNotExist:
+        oldForm = None
         
