@@ -17,6 +17,8 @@ class Listing(models.Model):
     image = models.ImageField(blank=True)
     watchlist = models.BooleanField(default=False)
     open = models.BooleanField(default=True)
+    category = models.CharField(max_length=30)
+    
     
     def __str__(self):
         return f"{self.title}, Start Bid: {self.startBid}, auctioneer: {self.auctioneer}"
@@ -30,4 +32,5 @@ class Comments(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField()
+
 

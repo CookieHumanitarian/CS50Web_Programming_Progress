@@ -12,6 +12,7 @@ class createListing(forms.Form):
     description = forms.CharField()
     start_Bid = forms.IntegerField()
     image = forms.CharField(required=False)
+    category = forms.CharField(required=False)
     
 class bidForm(forms.Form):
     new_bid = forms.IntegerField()
@@ -91,8 +92,9 @@ def saveListing(request):
             description = form.cleaned_data['description']
             startBid = form.cleaned_data['start_Bid']
             image = form.cleaned_data['image']
+            category = form.cleaned_data['category']
             user = request.user
-            instance = Listing(auctioneer = user, title=title, description=description, startBid=startBid, image=image)
+            instance = Listing(auctioneer = user, title=title, description=description, startBid=startBid, image=image, category=category)
             instance.save()
             
             bid = Bids(listing=instance, bidder=user, amount=startBid)
