@@ -2,10 +2,13 @@
 
 {% block body %}
 
-<h2>Categories</h2>
+<h2>Active Categories</h2>
     {% if categories %}
         {% for category in categories %}
-        <p><a class="nav-link" href="{% url 'item' category.title %}">{{category.title}}</a></p>
+            {% if category.open%}
+                <p><a class="nav-link" href="{% url 'item' category.title %}">{{category.title}}</a></p>
+            {% endif %}
+        
         {%endfor%}
     {% endif %}
 {% endblock %}
