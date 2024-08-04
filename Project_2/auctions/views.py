@@ -188,4 +188,9 @@ def comment(request, title):
             instance.save()
             
             return HttpResponseRedirect(reverse("index"))
-        
+
+def category(request, title):
+    categories = Listing.objects.filter(category=title)
+    return render(request, "auctions/category.html", {
+        "categories": categories
+    })

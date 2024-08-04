@@ -14,11 +14,19 @@
         <p>Title: {{ data.title }}</p>
         <p>Description: {{ data.description }}</p>
         <p>Current bid: {{ bid.amount }}</p>
+        
         {% if bid.bidder%}
             <p>Bidder: {{ bid.bidder }}</p>
         {% else %}
             <p>Bidder: No bidder</p>
         {% endif %}
+
+        {% if data.category %}
+        <p><a class="nav-link" href="{% url 'category' data.category %}">Category: {{data.category}}</a></p>
+        {% else %}
+            <p>Category: None stated</p>
+        {% endif %}
+
         <img src="{{data.image}}">
 
 {% if user.is_authenticated %}
@@ -53,7 +61,7 @@
     <form action="{% url 'comment' data.title %}" method="post">
         {% csrf_token %}
         {{ commentForm }}
-        <input class="form-control" autofocus type="text" name="comment" placeholder="Comment">
+        <input class="form-control" name="comment" placeholder="Comment">
         <button type="submit">Comment</button>
     </form>
 

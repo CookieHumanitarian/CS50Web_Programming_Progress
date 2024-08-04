@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-
 class User(AbstractUser):
     username = models.CharField(max_length=30, unique=True)
     email = models.EmailField(unique=True)
@@ -17,17 +16,17 @@ class Listing(models.Model):
     image = models.ImageField(blank=True)
     watchlist = models.BooleanField(default=False)
     open = models.BooleanField(default=True)
-    category = models.CharField(max_length=30)
+    category = models.CharField(max_length=30, blank=True)
     
     
     def __str__(self):
         return f"{self.title}, Start Bid: {self.startBid}, auctioneer: {self.auctioneer}"
+
 class Bids(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="bids")
     bidder = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bids")
     amount = models.IntegerField()
         
-
 class Comments(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
