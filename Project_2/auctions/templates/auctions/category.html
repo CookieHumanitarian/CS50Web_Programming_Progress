@@ -8,7 +8,6 @@
             {% if category.open%}
                 <p><a class="nav-link" href="{% url 'item' category.title %}">{{category.title}}</a></p>
             {% endif %}
-        
         {%endfor%}
     {% endif %}
 {% endblock %}

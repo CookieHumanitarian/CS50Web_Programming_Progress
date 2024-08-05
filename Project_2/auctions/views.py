@@ -127,12 +127,14 @@ def item(request, title):
             newBidAmount = newBid.cleaned_data['new_bid']
 
             if oldForm:
-                if newBidAmount == oldForm.amount:
+                if newBidAmount <= oldForm.amount:
                     messages.info(request, 'Invalid amount')
                 else:
                     oldForm.amount = newBidAmount
                     oldForm.bidder = user
-                    oldForm.save()                    
+                    oldForm.save()            
+                    data.startBid = newBidAmount
+                    data.save()        
                     messages.info(request, 'New bidded added')
 
             else:
@@ -174,7 +176,7 @@ def close(request, title):
 
     data.save()
     
-    return HttpResponseRedirect(reverse("item", title))
+    return HttpResponseRedirect(reverse("index"))
 
 def comment(request, title):
     data = Listing.objects.get(title=title)

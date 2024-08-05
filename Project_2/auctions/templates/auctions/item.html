@@ -13,9 +13,14 @@
     <p>
         <p>Title: {{ data.title }}</p>
         <p>Description: {{ data.description }}</p>
-        <p>Current bid: {{ bid.amount }}</p>
+        {% if bid.amount %}
+            <p>Current bid: {{ bid.amount }}</p>
+        {% else %}
+            <p>Current bid: {{ data.startBid }}</p>
+        {% endif %}
+       
         
-        {% if bid.bidder%}
+        {% if bid.bidder %}
             <p>Bidder: {{ bid.bidder }}</p>
         {% else %}
             <p>Bidder: No bidder</p>

@@ -18,6 +18,7 @@
                 <ul> Listing by: {{ listing.auctioneer }}</ul>
                 <ul>Title: {{ listing.title }}</ul>
                 <ul>Description: {{ listing.description }}</ul>
+                <ul>Current price: {{listing.startBid}}</ul>
                 <p><a href="{% url 'item' listing.title %}"> Item page: {{ listing.title }}</a></p>
                 <img src="{{listing.image}}">
             </p>
