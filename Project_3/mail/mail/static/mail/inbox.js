@@ -32,6 +32,9 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+  // Show appropriate mail
+  show_mail(mailbox)
 }
 
 function send_email(event) {
@@ -58,3 +61,7 @@ function send_email(event) {
         }
     });
   }
+
+function show_mail(mailbox) {
+  pass
+}
