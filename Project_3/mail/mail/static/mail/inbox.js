@@ -34,7 +34,7 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   // Show appropriate mail
-  show_mail(mailbox)
+  show_mail(mailbox);
 }
 
 function send_email(event) {
@@ -63,5 +63,15 @@ function send_email(event) {
   }
 
 function show_mail(mailbox) {
-  pass
+  // Fetch inbox
+  fetch(`/emails/${mailbox}`)
+  .then(response => response.json()) 
+  .then(array => {
+      array.forEach(element => {
+        const mail = document.createElement('div');
+        mail.innerHTML = element.sender;
+        document.querySelector('.container').append(mail);
+      });
+    console.log(array)
+  })
 }
