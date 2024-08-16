@@ -83,13 +83,12 @@ function show_mail(mailbox) {
         });
 
          // Change color of mail for read/unread emails
-         if (!element.read){
+        if (element.read == false){
           mail.style.backgroundColor = "#D3D3D3";
         }
         else {
-          mail.style.backgroundColor = "white";
+          mail.style.backgroundColor = "#FFFFFF";
         }
-
         document.querySelector('#emails-view').append(mail);
       });
   })
@@ -105,6 +104,18 @@ function view_mail(id) {
    fetch(`/emails/${id}`)
    .then(response => response.json()) 
    .then(response => {
-    console.log(response)
+    document.querySelector('#mail_from').innerHTML = `From: ${response.sender}`;
+    document.querySelector('#mail_to').innerHTML = `To: ${response.recipients}`;
+    document.querySelector('#mail_subject').innerHTML = `Subject: ${response.subject}`;
+    document.querySelector('#mail_timestamp').innerHTML = `Timestamp: ${response.timestamp}`;
+    document.querySelector('#mail_body').innerHTML = `Body: ${response.body}`;
+
+    //Change read to true
+    fetch(`/emails/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+          read: true
+      })
+    })
    });
 }
