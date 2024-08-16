@@ -67,10 +67,21 @@ function show_mail(mailbox) {
   fetch(`/emails/${mailbox}`)
   .then(response => response.json()) 
   .then(array => {
+
+      // Loop through each email 
       array.forEach(element => {
+        //Attach heading of mail
         const mail = document.createElement('div');
-        mail.innerHTML = element.sender;
+        mail.innerHTML = `${element.sender} Subject: ${element.subject} Time: ${element.timestamp}`;
         document.querySelector('.container').append(mail);
+
+         // Change color of mail for read/unread emails
+         if (!element.read){
+          mail.style.backgroundColor = "#D3D3D3";
+        }
+        else {
+          mail.style.backgroundColor = "white";
+        }
       });
     console.log(array)
   })
