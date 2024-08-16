@@ -129,6 +129,9 @@ function view_mail(id) {
       archive.onclick = () => archive_mail(id, false);;
     }
    });
+
+   // Reply mail
+   document.querySelector('#reply').onclick = () => reply_mail(id);
 }
 
 function archive_mail(id, archived) {
@@ -150,4 +153,22 @@ function archive_mail(id, archived) {
     })
   }
   load_mailbox('inbox');
+}
+
+function reply_mail(id) {
+   // Show compose view and hide other views
+   document.querySelector('#emails-view').style.display = 'none';
+   document.querySelector('#compose-view').style.display = 'block';
+   document.querySelector('#mail-view').style.display = 'none';
+ 
+  // Fetch individual mail
+  fetch(`/emails/${id}`)
+  .then(response => response.json()) 
+  .then(response => {
+  
+  // Pre-fill out composition fields
+  document.querySelector('#compose-recipients').value = response.sender;
+  document.querySelector('#compose-subject').value = `Re: ${response.subject}`;
+  document.querySelector('#compose-body').value = `On ${response.timestamp} ${response.sender} wrote: ${response.body}`;
+  });  
 }
