@@ -84,10 +84,10 @@ function show_mail(mailbox) {
 
          // Change color of mail for read/unread emails
         if (element.read == false){
-          mail.style.backgroundColor = "#D3D3D3";
+          mail.style.backgroundColor = "white";
         }
         else {
-          mail.style.backgroundColor = "#FFFFFF";
+          mail.style.backgroundColor = "gray";
         }
         document.querySelector('#emails-view').append(mail);
       });
