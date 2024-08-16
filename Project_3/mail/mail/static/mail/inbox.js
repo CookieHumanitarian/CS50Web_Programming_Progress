@@ -70,10 +70,15 @@ function show_mail(mailbox) {
 
       // Loop through each email 
       array.forEach(element => {
+
         //Attach heading of mail
         const mail = document.createElement('div');
         mail.innerHTML = `${element.sender} Subject: ${element.subject} Time: ${element.timestamp}`;
-        document.querySelector('.container').append(mail);
+
+        // Click to enter mail
+        mail.addEventListener('click', () => {
+          view_mail(element.id)
+        });
 
          // Change color of mail for read/unread emails
          if (!element.read){
@@ -82,7 +87,12 @@ function show_mail(mailbox) {
         else {
           mail.style.backgroundColor = "white";
         }
+
+        document.querySelector('.container').append(mail);
       });
-    console.log(array)
   })
+}
+
+function view_mail(id) {
+  pass
 }
