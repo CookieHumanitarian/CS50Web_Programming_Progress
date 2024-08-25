@@ -72,4 +72,3 @@ def register(request):
 def newPost (request):
     if request.method == "POST":
         return JsonResponse({"message": "hi"}, status=201)
-    return JsonResponse({"message": "Invalid method"}, status=405)
