@@ -1,4 +1,7 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -6,7 +9,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import User, Post
 
 
 def index(request):
@@ -68,4 +71,5 @@ def register(request):
 @login_required
 def newPost (request):
     if request.method == "POST":
-        pass
+        return JsonResponse({"message": "hi"}, status=201)
+    return JsonResponse({"message": "Invalid method"}, status=405)
