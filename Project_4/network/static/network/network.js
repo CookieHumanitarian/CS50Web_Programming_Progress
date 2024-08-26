@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function postForm(event) {
     event.preventDefault();
 
-    // Send email
+    // Make a new post
     fetch('/newPost', {
         method: 'POST',
         body: JSON.stringify({
@@ -17,4 +17,7 @@ function postForm(event) {
         .then(result => {
             alert(JSON.stringify(result.message))
             });
+
+    // Clear value
+    document.querySelector('#postBody').value = '';
 }

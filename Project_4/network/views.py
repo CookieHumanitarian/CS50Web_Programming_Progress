@@ -71,4 +71,15 @@ def register(request):
 @login_required
 def newPost (request):
     if request.method == "POST":
-        return JsonResponse({"message": "hi"}, status=201)
+        # Get content of body
+        data = json.loads(request.body)
+        body = data.get("body", "")
+        
+        # Save content to model
+        post = Post(
+            user = request.user,
+            body=body,
+        )
+        post.save()
+        
+        return JsonResponse({"message": "Post made successfully."}, status=201)
