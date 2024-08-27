@@ -96,4 +96,7 @@ def allPosts(request):
 
 @login_required
 def profile(request, user):
-    pass
+    data = Post.objects.filter(user__username=user)
+    return render(request, "network/profile.html", {
+        "data": data
+    })

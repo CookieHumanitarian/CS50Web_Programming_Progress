@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h1>Hi</h1> 
+
+    {% for d in data %}
+        <div class="singlePost">
+            <div>{{d.user}}</div>
+            <div>{{d.body}}</div>
+            <div>{{d.timestamp}}</div>
+        </div>
+    {% endfor %}
+
+
+
+{% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
+
+{% endblock %}
