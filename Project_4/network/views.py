@@ -91,4 +91,9 @@ def allPosts(request):
         # Get in reverse chronology order
         posts = Post.objects.all().order_by("-timestamp").all()
         
+        # Return posts in reverse chronology order
         return JsonResponse([post.serialize() for post in posts], safe=False)
+
+@login_required
+def profile(request, user):
+    pass

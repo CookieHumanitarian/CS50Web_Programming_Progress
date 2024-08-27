@@ -38,7 +38,7 @@ function showPost() {
             const user = document.createElement('div');
             const body = document.createElement('div');
             const timestamp = document.createElement('div');
-            user.innerHTML = `${element.user}`;
+            user.innerHTML = `<a href="/user/${element.user}">${element.user}</a>`;
             body.innerHTML = `${element.body}`;   
             timestamp.innerHTML = `${element.timestamp}`;
 
@@ -46,6 +46,5 @@ function showPost() {
             container.append(user, body, timestamp);
             document.querySelector('#posts').append(container);
         });
-        
     })
 }
