@@ -18,7 +18,7 @@ function postForm(event) {
         })
         .then(response => response.json())
         .then(result => {
-            alert(JSON.stringify(result.message))
+            alert(JSON.stringify(result.message));
             });
 
     // Clear value
@@ -29,14 +29,23 @@ function showPost() {
     fetch('/allPosts')
     .then(response => response.json())
     .then(array => {
-
         array.forEach(element => {
             // Create element to store post
-            const container = document.createElement('div')
-            container.innerHTML = `${element.user} says ${element.body} at ${element.timestamp}`
+            const container = document.createElement('div');
+            container.className = 'singlePost';
+
+            //Append information to post
+            const user = document.createElement('div');
+            const body = document.createElement('div');
+            const timestamp = document.createElement('div');
+            user.innerHTML = `${element.user}`;
+            body.innerHTML = `${element.body}`;   
+            timestamp.innerHTML = `${element.timestamp}`;
 
             // Append to bottom of posts
-            document.querySelector('#posts').append(container)
+            container.append(user, body, timestamp);
+            document.querySelector('#posts').append(container);
         });
+        
     })
 }

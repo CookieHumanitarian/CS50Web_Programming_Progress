@@ -4,7 +4,7 @@
 {% block body %}
     {% if user.is_authenticated %}
     <h3>New Post</h3>
-    <form id="postForm">
+    <form id="postForm" onsubmit="setTimeout(function(){window.location.reload();},10);">
         <textarea class="form" required id="postBody" placeholder="Body"></textarea>
         <input type="submit" class="btn btn-primary"/>
     </form>
