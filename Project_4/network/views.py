@@ -96,8 +96,7 @@ def allPosts(request):
 
 @login_required
 def profile(request, user):
-    data = Post.objects.filter(user__username=user).order_by("-timestamp").all()
+    data = Post.objects.filter(user__username=user)
     return render(request, "network/profile.html", {
-        "data": data,
-        "user": user
+        "data": data
     })

@@ -3,8 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    followers = models.TextField(blank=True)
-    following = models.TextField(blank=True)
+    pass
 
 class Post(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="poster")
