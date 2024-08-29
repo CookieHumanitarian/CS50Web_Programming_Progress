@@ -13,7 +13,11 @@ from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all().order_by("-timestamp").all()
+    print(posts)
+    return render(request, "network/index.html",{
+        "posts": posts
+    })
 
 
 def login_view(request):
@@ -83,20 +87,3 @@ def newPost (request):
         post.save()
         
         return JsonResponse({"message": "Post made successfully."}, status=201)
-    
-@login_required
-def allPosts(request):
-    if request.method == 'GET':
-        
-        # Get in reverse chronology order
-        posts = Post.objects.all().order_by("-timestamp").all()
-        
-        # Return posts in reverse chronology order
-        return JsonResponse([post.serialize() for post in posts], safe=False)
-
-@login_required
-def profile(request, user):
-    data = Post.objects.filter(user__username=user)
-    return render(request, "network/profile.html", {
-        "data": data
-    })

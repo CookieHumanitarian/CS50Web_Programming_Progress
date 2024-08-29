@@ -1,8 +1,0 @@
-form {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-textarea{
-    min-width: 400px;
-}

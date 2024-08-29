@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('#postForm').addEventListener('submit', postForm);
-    document.querySelector('#allPosts').addEventListener('click', showPost);
 
-    // By default, load all posts
-    showPost();
+    //Only attach event listener to post form if user is logged in
+    const form = document.querySelector('#postForm');
+    if (form) {
+        form.addEventListener('submit', postForm);
+    }
+
 });
 
 function postForm(event) {
@@ -23,28 +25,4 @@ function postForm(event) {
 
     // Clear value
     document.querySelector('#postBody').value = '';
-}
-
-function showPost() {
-    fetch('/allPosts')
-    .then(response => response.json())
-    .then(array => {
-        array.forEach(element => {
-            // Create element to store post
-            const container = document.createElement('div');
-            container.className = 'singlePost';
-
-            //Append information to post
-            const user = document.createElement('div');
-            const body = document.createElement('div');
-            const timestamp = document.createElement('div');
-            user.innerHTML = `<a href="/user/${element.user}">${element.user}</a>`;
-            body.innerHTML = `${element.body}`;   
-            timestamp.innerHTML = `${element.timestamp}`;
-
-            // Append to bottom of posts
-            container.append(user, body, timestamp);
-            document.querySelector('#posts').append(container);
-        });
-    })
 }
