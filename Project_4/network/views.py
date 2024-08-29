@@ -87,3 +87,10 @@ def newPost (request):
         post.save()
         
         return JsonResponse({"message": "Post made successfully."}, status=201)
+
+def profileView(request, user):
+    posts = Post.objects.filter(user__username = user).order_by("-timestamp").all()
+    print(posts)
+    return render(request, "network/index.html",{
+        "posts": posts
+    })

@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', postForm);
     }
-
 });
 
 function postForm(event) {
     event.preventDefault();
-
+    
     // Make a new post
     fetch('/newPost', {
         method: 'POST',

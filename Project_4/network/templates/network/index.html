@@ -13,7 +13,7 @@
     <div id="posts">
         {% for post in posts %}
         <div>
-            <div>{{post.user}}</div>
+            <a id="userProfile" href="{% url 'profileView' post.user %}">{{post.user}}</a>
             <div>{{post.body}}</div>
             <div>{{post.timestamp}}</div>
         </div>
