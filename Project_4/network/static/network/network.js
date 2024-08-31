@@ -5,6 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (form) {
         form.addEventListener('submit', postForm);
     }
+
+    //Event listener for follow/unfollow button
+    const following = document.querySelector('#following');
+    if (following) {
+        following.addEventListener('click', followingView);
+    }
 });
 
 function postForm(event) {

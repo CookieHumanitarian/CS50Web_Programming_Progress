@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    {{profile}}
+    {{user}}
+    <div id="posts">
+        {% for post in posts %}
+        <div>
+            <a id="userProfile" href="{% url 'profileView' post.user %}">{{post.user}}</a>
+            <div>{{post.body}}</div>
+            <div>{{post.timestamp}}</div>
+        </div>
+        {% endfor %}
+    </div>
+
+{% block script %}
+    <script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
+
+{% endblock %}

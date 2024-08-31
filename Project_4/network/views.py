@@ -90,7 +90,10 @@ def newPost (request):
 
 def profileView(request, user):
     posts = Post.objects.filter(user__username = user).order_by("-timestamp").all()
+    profile = User.objects.get(pk=user)
     print(posts)
-    return render(request, "network/index.html",{
-        "posts": posts
+    return render(request, "network/profile.html",{
+        "posts": posts,
+        "user": user,
+        "profile": profile
     })
