@@ -123,3 +123,21 @@ def followView(request, profileUsername, currentUsername):
     currentUser.save()
     
     return HttpResponseRedirect(reverse("index"))
+
+def followPage(request):
+    currentUser = get_object_or_404(User, username=request.user.username)
+    currentFollowing = currentUser.following
+    
+    #Put all followers post into a list 
+    posts = []
+    
+    for f in currentFollowing:
+        follow = Post.objects.filter(user__username = f)
+        posts.extend(follow)
+    
+    # Sort all posts in descending order
+    posts = sorted(posts, key=lambda post: post.timestamp, reverse=True)
+    
+    return render(request, "network/following.html",{
+        "posts": posts
+    })
