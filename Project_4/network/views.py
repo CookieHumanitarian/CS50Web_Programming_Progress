@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -90,10 +90,36 @@ def newPost (request):
 
 def profileView(request, user):
     posts = Post.objects.filter(user__username = user).order_by("-timestamp").all()
-    profile = User.objects.get(pk=user)
-    print(posts)
+    currentUser = get_object_or_404(User, username=request.user)
+    user = get_object_or_404(User, username=user)
+    
+    # Get following list for current user
+    followingList = currentUser.following.split(",")
+    
     return render(request, "network/profile.html",{
         "posts": posts,
-        "user": user,
-        "profile": profile
+        "Profileuser": user,
+        "currentUser": currentUser,
+        "followingList": followingList
     })
+
+def followView(request, profileUsername, currentUsername):
+    
+    currentUser = get_object_or_404(User, username=currentUsername)
+    
+    # Check to see if user is already following someone
+    if currentUser.following:
+        followingList = currentUser.following.split(',')
+    else:
+        followingList = []
+        
+    # Follow / unfollow function
+    if profileUsername in followingList:
+        followingList.remove(profileUsername)  
+    else: 
+        followingList.append(profileUsername)
+    
+    currentUser.following = ','.join(followingList)
+    currentUser.save()
+    
+    return HttpResponseRedirect(reverse("index"))

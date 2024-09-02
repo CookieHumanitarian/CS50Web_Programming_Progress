@@ -2,8 +2,16 @@
 {% load static %}
 
 {% block body %}
-    {{profile}}
-    {{user}}
+
+    {% if currentUser.username != Profileuser.username %}
+        {% if Profileuser.username not in followingList%}
+            <a id="follow" href="{% url 'followView' Profileuser.username currentUser.username %}">Follow</a>
+        {% else %}
+            <a id="follow" href="{% url 'followView' Profileuser.username currentUser.username %}">Unfollow</a>
+        {% endif %}
+    {% endif %}
+
+
     <div id="posts">
         {% for post in posts %}
         <div>

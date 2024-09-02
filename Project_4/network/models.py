@@ -3,12 +3,10 @@ from django.db import models
 
 
 class User(AbstractUser):
-    id = models.BigAutoField(primary_key=True)
     followers = models.TextField(blank=True)
     following = models.TextField(blank=True)
 
 class Post(models.Model):
-    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="poster")
     body = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now_add=True)
