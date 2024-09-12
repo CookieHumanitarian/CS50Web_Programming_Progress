@@ -103,11 +103,15 @@ def profileView(request, user):
     except:
         currentUser = "Guest"
         followingList = "None"
+        
+    p = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
 
     user = get_object_or_404(User, username=user)
     
     return render(request, "network/profile.html",{
-        "posts": posts,
+        "page_obj": page_obj,
         "Profileuser": user,
         "currentUser": currentUser,
         "followingList": followingList
@@ -148,6 +152,10 @@ def followPage(request):
     # Sort all posts in descending order
     posts = sorted(posts, key=lambda post: post.timestamp, reverse=True)
     
+    p = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    
     return render(request, "network/following.html",{
-        "posts": posts
+        "page_obj": page_obj
     })
