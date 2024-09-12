@@ -11,7 +11,7 @@
     {% endif %}
 
     <div id="posts">
-        {% for post in posts %}
+        {% for post in page_obj %}
         <div>
             <a id="userProfile" href="{% url 'profileView' post.user %}">{{post.user}}</a>
             <div>{{post.body}}</div>

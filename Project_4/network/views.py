@@ -8,15 +8,20 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 from .models import User, Post
 
 
 def index(request):
     posts = Post.objects.all().order_by("-timestamp").all()
-    print(posts)
+    
+    p = Paginator(posts, 10)
+    page_number = request.GET.get('page')
+    page_obj = p.get_page(page_number)
+    
     return render(request, "network/index.html",{
-        "posts": posts
+        "page_obj": page_obj
     })
 
 
@@ -90,11 +95,16 @@ def newPost (request):
 
 def profileView(request, user):
     posts = Post.objects.filter(user__username = user).order_by("-timestamp").all()
-    currentUser = get_object_or_404(User, username=request.user)
-    user = get_object_or_404(User, username=user)
     
-    # Get following list for current user
-    followingList = currentUser.following.split(",")
+    try:
+        currentUser = get_object_or_404(User, username=request.user)
+        # Get following list for current user
+        followingList = currentUser.following.split(",")
+    except:
+        currentUser = "Guest"
+        followingList = "None"
+
+    user = get_object_or_404(User, username=user)
     
     return render(request, "network/profile.html",{
         "posts": posts,
