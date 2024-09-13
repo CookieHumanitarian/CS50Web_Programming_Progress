@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (following) {
         following.addEventListener('click', followingView);
     }
+
+    //Event listener for editing posts
+    document.querySelector('#editButton').addEventListener('click', editButton);
 });
 
 function postForm(event) {
@@ -30,4 +33,18 @@ function postForm(event) {
 
     // Clear value
     document.querySelector('#postBody').value = '';
+}
+
+function editButton(id) {
+    // Edit post
+    fetch(`/editPost/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            
+        })
+        })
+        .then(response => response.json())
+        .then(result => {
+            alert(JSON.stringify(result.message));
+            });
 }

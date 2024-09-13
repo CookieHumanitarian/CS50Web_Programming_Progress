@@ -14,8 +14,20 @@
         {% for post in page_obj %}
         <div>
             <a id="userProfile" href="{% url 'profileView' post.user %}">{{post.user}}</a>
-            <div>{{post.body}}</div>
+            <div id="{{post.id}}">{{post.body}}</div>
+            <div id="editBody" style="display:none">
+                <form id="editForm">
+                    <textarea class="form-control" id="formBody"></textarea>
+                    <input type="submit" class="btn btn-primary"/>
+                </form>
+            </div>
             <div>{{post.timestamp}}</div>
+
+            {% if user.is_authenticated %}
+                {% if currentUser.username == Profileuser.username %}
+                    <button class="btn btn-sm btn-outline-primary" id="editButton" value={{post.id}}>Edit</button>
+                {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>

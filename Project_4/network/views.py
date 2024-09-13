@@ -159,3 +159,6 @@ def followPage(request):
     return render(request, "network/following.html",{
         "page_obj": page_obj
     })
+    
+def editView(request, user):
+    pass

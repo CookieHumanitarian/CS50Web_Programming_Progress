@@ -20,6 +20,12 @@
             <a id="userProfile" href="{% url 'profileView' post.user %}">{{post.user}}</a>
             <div>{{post.body}}</div>
             <div>{{post.timestamp}}</div>
+
+            {% if user.is_authenticated %}
+                {% if currentUser.username == Profileuser.username %}
+                    <h1>HI</h1>
+                {% endif %}
+            {% endif %}
         </div>
         {% endfor %}
     </div>
