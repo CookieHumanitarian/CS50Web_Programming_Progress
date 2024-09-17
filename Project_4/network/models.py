@@ -18,3 +18,5 @@ class Post(models.Model):
             "body": self.body,
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
         }
+    def __str__(self):
+        return f"Post ID: {self.id}"

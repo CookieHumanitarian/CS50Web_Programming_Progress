@@ -6,14 +6,23 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', postForm);
     }
 
-    //Event listener for follow/unfollow button
+    // Follow/unfollow button
     const following = document.querySelector('#following');
     if (following) {
         following.addEventListener('click', followingView);
     }
 
-    //Event listener for editing posts
-    document.querySelector('#editButton').addEventListener('click', editButton);
+    // Editing post
+    document.querySelectorAll('.editButton').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.dataset.id;
+            const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+            editButton(postElement);
+        });
+    });
+
+    //Editing Post
+    document.querySelector('#editForm').addEventListener('click', editForm);
 });
 
 function postForm(event) {
@@ -35,16 +44,7 @@ function postForm(event) {
     document.querySelector('#postBody').value = '';
 }
 
-function editButton(id) {
-    // Edit post
-    fetch(`/editPost/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-            
-        })
-        })
-        .then(response => response.json())
-        .then(result => {
-            alert(JSON.stringify(result.message));
-            });
+function editButton(postElement) {
+    postElement.querySelector('.postBody').style.display = 'none';
+    postElement.querySelector('.postEdit').style.display = 'block';
 }
