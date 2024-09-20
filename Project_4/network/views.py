@@ -14,14 +14,25 @@ from .models import User, Post
 
 
 def index(request):
-    posts = Post.objects.all().order_by("-timestamp").all()
+    posts = Post.objects.all().order_by("-timestamp")
     
     p = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)
     
+     # Check if the user is authenticated
+    if request.user.is_authenticated:
+        try: 
+            currentUser = get_object_or_404(User, username=request.user.username)
+        except:
+            currentUser = None
+    else:
+        currentUser = None
+        
     return render(request, "network/index.html",{
-        "page_obj": page_obj
+        "page_obj": page_obj,
+        "currentUser": currentUser,
+        "posts": posts
     })
 
 
@@ -160,5 +171,20 @@ def followPage(request):
         "page_obj": page_obj
     })
     
-def editView(request, user):
-    pass
+@csrf_exempt
+@login_required
+def editView(request):
+    if request.method == "POST":
+        # Get data
+        data = json.loads(request.body)
+        body = data.get("body", "")
+        postID = data.get("postID", "")
+        
+        # Fetch the post
+        currentPost = get_object_or_404(Post, id=postID)
+        currentPost.body = body
+        currentPost.save()
+
+    return JsonResponse({"message": "Edit made successfully."}, status=201)
+    
+

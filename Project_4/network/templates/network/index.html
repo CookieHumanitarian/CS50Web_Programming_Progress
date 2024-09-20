@@ -19,16 +19,17 @@
         <div class="postBody">{{ post.body }}</div>
         
         <div class="postEdit" style="display:none">
-            <form id="editForm">
-                <textarea class="form-control" class="formBody">{{post.body}}</textarea>
-                <input type="submit" class="btn btn-primary"/>
+            <form class="editForm">
+                <textarea class="form-control formBody">{{post.body}}</textarea>
+                <input type="hidden" name="post_id" value="{{post.id}}"/>
+                <input type="submit" class="btn btn-primary" value="Submit"/>
             </form>
         </div>
         
         <div>{{ post.timestamp }}</div>
 
         {% if user.is_authenticated %}
-            {% if currentUser.username == Profileuser.username %}
+            {% if currentUser.username == post.user.username %}
                 <button class="editButton" data-id="{{ post.id }}">Edit</button>
             {% endif %}
         {% endif %}

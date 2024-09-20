@@ -12,18 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
         following.addEventListener('click', followingView);
     }
 
-    // Editing post
-    document.querySelectorAll('.editButton').forEach(button => {
-        button.addEventListener('click', function() {
-            const postId = this.dataset.id;
-            const postElement = document.querySelector(`.post[data-id="${postId}"]`);
-            editButton(postElement);
+        // Show edit and attach the event listener to the edit form
+        document.querySelectorAll('.editButton').forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.dataset.id;
+                const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+                editButton(postElement);
+    
+                // Attach submit listener to the edit form when it's shown
+                const editForm = postElement.querySelector('.editForm');
+                if (editForm) {
+                    editForm.addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const formBody = editForm.querySelector('.formBody').value;
+                        editFormFunction(formBody, postId, postElement);
+                    });
+                }
+            });
         });
-    });
+    })
 
-    //Editing Post
-    document.querySelector('#editForm').addEventListener('click', editForm);
-});
+
 
 function postForm(event) {
     event.preventDefault();
@@ -47,4 +56,26 @@ function postForm(event) {
 function editButton(postElement) {
     postElement.querySelector('.postBody').style.display = 'none';
     postElement.querySelector('.postEdit').style.display = 'block';
+}
+
+function editFormFunction(formBody, postID, postElement) {
+    fetch('/editView', {
+        method: 'POST',
+        body: JSON.stringify({
+            body: formBody,
+            postID: postID
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        postElement.querySelector('.postBody').style.display = 'block';
+        postElement.querySelector('.postEdit').style.display = 'none';
+        
+        const newBody = postElement.querySelector('.postBody');
+        newBody.innerHTML = ''; 
+        newBody.innerHTML = formBody; 
+
+        
+        alert(JSON.stringify(result.message))
+    })
 }
