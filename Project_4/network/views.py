@@ -183,8 +183,9 @@ def editView(request):
         # Fetch the post
         currentPost = get_object_or_404(Post, id=postID)
         currentPost.body = body
+        currentPost.edited = True
         currentPost.save()
 
-    return JsonResponse({"message": "Edit made successfully."}, status=201)
+        return JsonResponse({"message": "Edit made successfully."}, status=201)
     
 

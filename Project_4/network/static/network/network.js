@@ -74,7 +74,6 @@ function editFormFunction(formBody, postID, postElement) {
         const newBody = postElement.querySelector('.postBody');
         newBody.innerHTML = ''; 
         newBody.innerHTML = formBody; 
-
         
         alert(JSON.stringify(result.message))
     })

@@ -17,6 +17,10 @@
         <a class="userProfile" href="{% url 'profileView' post.user %}">{{ post.user }}</a>
         
         <div class="postBody">{{ post.body }}</div>
+
+        {% if post.edited %}
+            <div>Edited</div>
+        {% endif %}
         
         <div class="postEdit" style="display:none">
             <form class="editForm">
