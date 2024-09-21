@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block body %}
+    <div class="submit">
     {% if user.is_authenticated %}
     <h3>New Post</h3>
     <form id="postForm" onsubmit="setTimeout(function(){window.location.reload();},10);">
@@ -9,6 +10,7 @@
         <input type="submit" class="btn btn-primary"/>
     </form>
     {% endif %}
+    </div>
 
     <div id="posts">
         
@@ -19,9 +21,15 @@
         <div class="postBody">{{ post.body }}</div>
 
         <div class="likeCount">
-            <div id="like">Likes: {{post.like}}</div>
+            <div id="like">Likes: {{post.likeCount}}</div>
             {% if user.is_authenticated %}
-                <button class="likeButton" data-id="{{ post.id }}">Like</button>
+                <button id="likeText" class="likeButton" data-id="{{ post.id }}">
+                    {% if post.id in liked_posts %}
+                        Unlike
+                    {% else %}
+                        Like
+                    {% endif %}
+                </button>
             {% endif %}
         </div>
 

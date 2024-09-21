@@ -20,20 +20,23 @@ def index(request):
     page_number = request.GET.get('page')
     page_obj = p.get_page(page_number)
     
-     # Check if the user is authenticated
+    liked_posts = set()  
+
     if request.user.is_authenticated:
-        try: 
-            currentUser = get_object_or_404(User, username=request.user.username)
-        except:
-            currentUser = None
+        currentUser = get_object_or_404(User, username=request.user.username)
+        for post in posts:
+            if currentUser.username in post.likeUser.split(','):
+                liked_posts.add(post.id)
     else:
         currentUser = None
         
     return render(request, "network/index.html",{
         "page_obj": page_obj,
         "currentUser": currentUser,
+        "liked_posts": liked_posts, 
         "posts": posts
     })
+
 
 
 def login_view(request):
@@ -188,4 +191,32 @@ def editView(request):
 
         return JsonResponse({"message": "Edit made successfully."}, status=201)
     
+@csrf_exempt
+@login_required
+def like(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        postID = data.get("postID", "")
 
+        currentPost = get_object_or_404(Post, id=postID)
+        user = request.user.username
+
+        if currentPost.likeUser:
+            likeList = currentPost.likeUser.split(',')
+        else:
+            likeList = []
+
+        if user in likeList:
+            likeList.remove(user)
+            if currentPost.likeCount > 0:
+                currentPost.likeCount -= 1
+            text = "Like"
+        else:
+            likeList.append(user)
+            currentPost.likeCount += 1
+            text = "Unlike"
+
+        currentPost.likeUser = ','.join(likeList)
+        currentPost.save()
+    
+    return JsonResponse({"likeCount": currentPost.likeCount, "text": text}, status=201)

@@ -12,26 +12,34 @@ document.addEventListener('DOMContentLoaded', function() {
         following.addEventListener('click', followingView);
     }
 
-        // Show edit and attach the event listener to the edit form
-        document.querySelectorAll('.editButton').forEach(button => {
-            button.addEventListener('click', function() {
-                const postId = this.dataset.id;
-                const postElement = document.querySelector(`.post[data-id="${postId}"]`);
-                editButton(postElement);
-    
-                // Attach submit listener to the edit form when it's shown
-                const editForm = postElement.querySelector('.editForm');
-                if (editForm) {
-                    editForm.addEventListener('submit', function(event) {
-                        event.preventDefault();
-                        const formBody = editForm.querySelector('.formBody').value;
-                        editFormFunction(formBody, postId, postElement);
-                    });
-                }
-            });
-        });
-    })
+    // Show edit and attach the event listener to the edit form
+    document.querySelectorAll('.editButton').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.dataset.id;
+            const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+            editButton(postElement);
 
+            // Attach submit listener to the edit form when it's shown
+            const editForm = postElement.querySelector('.editForm');
+            if (editForm) {
+                editForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const formBody = editForm.querySelector('.formBody').value;
+                    editFormFunction(formBody, postId, postElement);
+                });
+            }
+        });
+    });
+})
+
+    //Like and unlike function 
+    document.querySelectorAll('.likeButton').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.dataset.id;
+            const postElement = document.querySelector(`.post[data-id="${postId}"]`);
+            likeButton(postElement, postId);
+        })
+    })
 
 
 function postForm(event) {
@@ -74,7 +82,25 @@ function editFormFunction(formBody, postID, postElement) {
         const newBody = postElement.querySelector('.postBody');
         newBody.innerHTML = ''; 
         newBody.innerHTML = formBody; 
-        
-        alert(JSON.stringify(result.message))
     })
+}
+
+function likeButton(postElement, postID) {
+    fetch('/like', {
+        method: 'POST',
+        body: JSON.stringify({
+            postID: postID
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        const likeCount = postElement.querySelector('#like');
+        likeCount.innerHTML = `Likes: ${result.likeCount}`
+
+        const likeText = postElement.querySelector('#likeText');
+        likeText.innerHTML = result.text
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
