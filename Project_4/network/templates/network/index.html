@@ -18,8 +18,15 @@
         
         <div class="postBody">{{ post.body }}</div>
 
+        <div class="likeCount">
+            <div id="like">Likes: {{post.like}}</div>
+            {% if user.is_authenticated %}
+                <button class="likeButton" data-id="{{ post.id }}">Like</button>
+            {% endif %}
+        </div>
+
         {% if post.edited %}
-            <div>Edited</div>
+            <div id="edit">Edited</div>
         {% endif %}
         
         <div class="postEdit" style="display:none">
